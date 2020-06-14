@@ -1,7 +1,7 @@
 <HTML>
 
 <head>
-
+<script src="js/createjs.min.js"></script>
 <script src="js/KeyMonkey.js"></script>
 <script src="js/collisionGnome.js"></script>
 <script>
@@ -16,25 +16,24 @@ var stageMargin = 128;
 var hero;
 var heroStartSpeedX = 10;
 var heroStartSpeedY = 10;
-var heroStartPositionX;
-var heroStartPositionY; 
+var heroStartPositionX = 800;
+var heroStartPositionY = 830;
 
 var targetsArray = [ ];
-var numberOfTargets = 50;
-var targetMaxSpeed = 6; 
-var targetMinSpeed = 2;
+var numberOfTargets = 20;
+var targetMaxSpeed = 4; 
+var targetMinSpeed = 4;
 var targetMaxScale = 1.15;
 var targetMinScale = .8;
 
 var bg;
 
-var scoreText;		
+var scoreText;
 
-var score;		
-var gameClock;	
-var gameOver;		
-var gameOverDuration = 200;		
-
+var score;
+var gameClock;
+var gameOver;
+var gameOverDuration = 200;
 
 function init(){	
 	console.log("hello from init()");
@@ -52,7 +51,8 @@ function init(){
 }
 
 // ************   initGame() runs at init and reset ****************
-function initGame(){																		// $$$$$
+function initGame(){	
+
 	// initialize game variables 
 	console.log("hello from initGame()");
 	score = 0;				
@@ -105,13 +105,13 @@ function makeBackground(whichBackground){ // takes a string containing the filep
 	myStage.addChild(background);
 }
 function makeScoreText(){
-	scoreText = new createjs.Text("Score: " + score, "40px Arial", "#34ebd2");
-	scoreText.x = 500;
-	scoreText.y = 400;
+	scoreText = new createjs.Text("Score: " + score, "50px Arial", "#eda6d4");
+	scoreText.x = 30;
+	scoreText.y = 80;
 	scoreText.textBaseline = "alphabetic";
 	myStage.addChild(scoreText);
 }
-function makeHero(){																		// $$$$$
+function makeHero(){		 
 	hero = new createjs.Bitmap("images/hero.png");
 	if(heroStartPositionX === undefined){ hero.x = stageWidth/2; } else { hero.x = heroStartPositionX; }
 	if(heroStartPositionY === undefined){ hero.y = stageHeight/2; } else { hero.y = heroStartPositionY; }
@@ -121,12 +121,12 @@ function makeHero(){																		// $$$$$
 	hero.speedX = heroStartSpeedX;
 	hero.speedY = heroStartSpeedY;
 	// *** Add collision detection to hero ***
-	collisionGnome.addCollider(hero, 1); // (sprite, hitBoxRatio)							// $$$$$
+	collisionGnome.addCollider(hero, 1); // (sprite, hitBoxRatio)						
 }		
 function makeTargets(howManyTargets){
 
 	for (var i =0; i<howManyTargets; i++){
-		// roll a random integer: 0, 1, or 2 and store it in the new variable 'whichTarget'
+		// roll a random integer: 0, 1, or 2 and store it in the new variable 'whichTargedt'
         var whichTarget = Math.floor(Math.random()*3); 
 
         // This switch statement checks our 'whichTarget' value and assigns a different Bitmap 
@@ -154,51 +154,51 @@ function makeTargets(howManyTargets){
         targetsArray[i].speedY = rollRange(targetMinSpeed, targetMaxSpeed, true);
     
     	var coinTossX = Math.random(); // flip a coin to see if the target starts off moving left or right
-    	if(coinTossX > .5) { targetsArray[i].speedX = - targetsArray[i].speedX; }
+    	//if(coinTossX > .5) { targetsArray[i].speedX = - targetsArray[i].speedX; }
     	var coinTossY = Math.random(); // flip a coin to see if the target starts off moving up or down
-     	if(coinTossY > .5) { targetsArray[i].speedY = - targetsArray[i].speedY; }
+     	//if(coinTossY > 10000000000) { targetsArray[i].speedY = - targetsArray[i].speedY; }
 
      	// *** Add collision code to each target ***
 		collisionGnome.addCollider(targetsArray[i], 1); // (sprite, hitBoxRatio)			// $$$$$	
       		        
         myStage.addChild(targetsArray[i]);  
-	} // END FOR LOOP	
-}// end makeTargets()
+	} 
+}
 
 	
 // ***************** 	MOVEMENT     ****************
 
-function moveHero(){  // formerly known as 'handleKeyboardInput'
+function moveHero(){ 
 	   
-	if(keyMonkey["w"] || keyMonkey["up"]) 	{hero.y -= hero.speedY; }
-	if(keyMonkey["s"] || keyMonkey["down"]) {hero.y += hero.speedY; }
+//	if(keyMonkey["w"] || keyMonkey["up"]) 	{hero.y -= hero.speedY; }
+//	if(keyMonkey["s"] || keyMonkey["down"]) {hero.y += hero.speedY; }
 	if(keyMonkey["d"] || keyMonkey["right"]) {hero.x += hero.speedX; }
 	if(keyMonkey["a"] || keyMonkey["left"]) {hero.x -= hero.speedX; }
 
-}// end moveHero()
+}
 
 function moveTargets(){
 	for(var i = 0; i < targetsArray.length; i++){
-		targetsArray[i].x += targetsArray[i].speedX;
+		//targetsArray[i].x += targetsArray[i].speedX;
 		targetsArray[i].y += targetsArray[i].speedY;
-	} // end for
-} // end moveTargets()
+	} 
+}
 
 // ***************** 	BOUNDARIES AND COLLISIONS    ************
 		
 function checkBoundaryTargets(){
-	for(var i = 0; i<targetsArray.length; i++){	
-
-		if(targetsArray[i].x > stageWidth-targetsArray[i].regX || targetsArray[i].x < targetsArray[i].regX) {
+	//for(var i = 0; i<targetsArray.length; i++){	
+//
+//		if(targetsArray[i].x > stageWidth-targetsArray[i].regX || targetsArray[i].x < targetsArray[i].regX) {
 			//console.log("off STAGE");
-			targetsArray[i].speedX = -targetsArray[i].speedX;
+//			targetsArray[i].speedX = -targetsArray[i].speedX;
 		}// end if
-		if(targetsArray[i].y > stageHeight-targetsArray[i].regY || targetsArray[i].y < targetsArray[i].regY) {
+//		if(targetsArray[i].y > stageHeight-targetsArray[i].regY || targetsArray[i].y < targetsArray[i].regY) {
 			//console.log("off STAGE");
-			targetsArray[i].speedY = -targetsArray[i].speedY;
-		}// end if
-	}// end for
-}// end targetBoundaryCheck()
+//			targetsArray[i].speedY = -targetsArray[i].speedY;
+//		}// end if
+//	}// end for
+//}// end targetBoundaryCheck()
 		
 function checkBoundaryHero(){
 
@@ -276,7 +276,9 @@ function rollRange(bottomEnd, topEnd, integerIfTrue){
 <title>Leeky Notes</title>
 </head>
 
-<body onload="init()">
-<canvas id="myCanvas" width="1024" height="1024">Sorry. You need an HTML5 compatible browser to see this.</canvas>
+<body onload="init()" style="text-align: center;">
+	<a href="index.html"><img src="images/logo.png"></a>
+	<br>
+<canvas id="myCanvas" width="1600" height="900">This browser does not support HTML5, try using chrome, Firefox, or Safari on PC or Mac and try again.</canvas>
 </body>
 </HTML>
