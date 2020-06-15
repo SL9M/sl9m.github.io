@@ -21,7 +21,7 @@ var heroStartPositionY = 830;
 
 var targetsArray = [ ];
 var numberOfTargets = 20;
-var targetMaxSpeed = 4; 
+var targetMaxSpeed = 8; 
 var targetMinSpeed = 4;
 var targetMaxScale = 1.15;
 var targetMinScale = .8;
@@ -187,18 +187,18 @@ function moveTargets(){
 // ***************** 	BOUNDARIES AND COLLISIONS    ************
 		
 function checkBoundaryTargets(){
-	//for(var i = 0; i<targetsArray.length; i++){	
-//
-//		if(targetsArray[i].x > stageWidth-targetsArray[i].regX || targetsArray[i].x < targetsArray[i].regX) {
+	for(var i = 0; i<targetsArray.length; i++){	
+
+	if(targetsArray[i].x > stageWidth-targetsArray[i].regX || targetsArray[i].x < targetsArray[i].regX) {
 			//console.log("off STAGE");
-//			targetsArray[i].speedX = -targetsArray[i].speedX;
+		targetsArray[i].speedX = -targetsArray[i].speedX;
 		}// end if
-//		if(targetsArray[i].y > stageHeight-targetsArray[i].regY || targetsArray[i].y < targetsArray[i].regY) {
-			//console.log("off STAGE");
-//			targetsArray[i].speedY = -targetsArray[i].speedY;
-//		}// end if
-//	}// end for
-//}// end targetBoundaryCheck()
+		if(targetsArray[i].y > stageHeight-targetsArray[i].regY || targetsArray[i].y < targetsArray[i].regY) {
+			console.log("off STAGE");
+			targetsArray[i].speedY = -targetsArray[i].speedY;
+		}// end if
+	}// end for
+}// end targetBoundaryCheck()
 		
 function checkBoundaryHero(){
 
